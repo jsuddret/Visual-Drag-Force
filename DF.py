@@ -2,9 +2,8 @@ from tkinter import *
 
 # retrieve values from list as float
 y = [float(line.strip()) for line in open('y_values_df.txt')]
+# d = [float(line.strip()) for line in open('d_values_df.txt')]
 y.reverse()
-v = [float(line.strip()) for line in open('v_values_df.txt')]
-v.reverse()
 stages = []
 index = 0
 
@@ -27,10 +26,15 @@ stage2 = canvas.create_rectangle(w/2-wd2_s2, h-h_s2, w/2+wd2_s2, h-h_s1-h_s2, fi
 stages.append(stage2)
 stage3 = canvas.create_rectangle(w/2-wd2_s3, h-2*h_s2, w/2+wd2_s3, h-h_s1-2*h_s2, fill='black')
 stages.append(stage3)
+exhaust = canvas.create_polygon(w/2-wd2_s1, h+2, w/2+wd2_s1, h+2, w/2+1, h+2+wd2_s1, fill='orange')
+stages.append(exhaust)
+velocity = canvas.create_text(725, 975, text='v='+str(round(y[len(y) - 1], 6)))
+# drag = canvas.create_text(725, 980, text='d='+str(round(d[0], 6)))
 
 while index < len(y) - 1:
     for stage in stages:
-        canvas.move(stage, 0, 2*(y[index + 1] - y[index]))
+        canvas.move(stage, 0, (y[index]*0.00000435)*(y[len(y) - 1] - y[len(y) - index - 1]))
+    canvas.itemconfigure(velocity, text='v='+str(round(y[len(y) - 1 - index], 6)))
     canvas.update()
     index += 1
 
